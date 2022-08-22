@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+case "$(uname -s)" in
+    Linux*)
+        sudo apt install \
+            exuberant-ctags \
+            fzf \
+            ack
+        ;;
+    *)
+        printf "cannot run $0 unknown\n"
+        ;;
+esac
