@@ -1,0 +1,719 @@
+filetype off
+
+if has('nvim') && isdirectory(expand('~/.pyenv/versions/py2nvim/'))
+  let g:python_host_prog = '~/.pyenv/versions/py2nvim/bin/python'
+endif
+if has('nvim') && isdirectory(expand('~/.pyenv/versions/py3nvim/'))
+  let g:python3_host_prog = '~/.pyenv/versions/py3nvim/bin/python'
+endif
+
+let mapleader = " "
+packadd minpac
+call minpac#init()
+
+call minpac#add('k-takata/minpac', {'type': 'opt', 'rev': 'master'})
+call minpac#add('junegunn/vader.vim', {'type': 'opt'})
+call minpac#add('tpope/vim-sensible')
+
+" pipeworks
+call minpac#add('tpope/vim-dispatch')
+call minpac#add('roxma/nvim-yarp')
+call minpac#add('roxma/vim-hug-neovim-rpc')
+call minpac#add('xolox/vim-misc')
+call minpac#add('kana/vim-textobj-user')
+call minpac#add('neovim/nvim-lspconfig', {'type': 'opt'})
+if has('nvim')
+  packadd nvim-lspconfig
+endif
+
+" language service
+call minpac#add('scrooloose/syntastic', {'type': 'opt'})
+call minpac#add('tpope/vim-scriptease', {'type': 'opt'})
+call minpac#add('reasonml-editor/vim-reason-plus')
+
+" language service (completion)
+call minpac#add('w0rp/ale', {'type': 'opt'})
+call minpac#add('davidhalter/jedi-vim', {'type': 'opt'})
+call minpac#add('prabirshrestha/asyncomplete.vim')
+call minpac#add('prabirshrestha/async.vim')
+call minpac#add('prabirshrestha/asyncomplete-lsp.vim')
+call minpac#add('prabirshrestha/vim-lsp')
+call minpac#add('mgedmin/python-imports.vim', {'type': 'opt'})
+call minpac#add('tweekmonster/django-plus.vim')
+
+" text objects
+call minpac#add('michaeljsmith/vim-indent-object')
+call minpac#add('pianohacker/vim-textobj-indented-paragraph')
+call minpac#add('wellle/targets.vim')
+" call minpac#add('vim-scripts/argtextobj.vim', {'type': 'opt'})
+call minpac#add('vimtaku/vim-textobj-keyvalue', {'type': 'opt'})
+call minpac#add('bps/vim-textobj-python', {'type': 'opt'})
+
+" git
+call minpac#add('tpope/vim-fugitive', {'pullmethod': 'autostash'})
+call minpac#add('tommcdo/vim-fubitive')
+call minpac#add('airblade/vim-gitgutter')
+
+" extra actions
+call minpac#add('Olical/vim-enmasse')
+call minpac#add('FooSoft/vim-argwrap')
+call minpac#add('tpope/vim-surround')
+call minpac#add('SirVer/ultisnips', {'type': 'opt'})
+if !has("gui_macvim")
+    " has errors when running in macvim
+    packadd ultisnips
+endif
+call minpac#add('honza/vim-snippets')
+call minpac#add('tpope/vim-commentary')
+call minpac#add('tpope/vim-repeat')
+call minpac#add('AndrewRadev/splitjoin.vim')
+call minpac#add('rcarriga/vim-ultest', {'type': 'opt'})
+if has('nvim')
+  packadd vim-ultest
+endif
+
+" jumping around
+call minpac#add('junegunn/fzf')
+call minpac#add('junegunn/fzf.vim')
+call minpac#add('ludovicchabant/vim-gutentags')
+call minpac#add('lieryan/vim-jumpsuite', {'type': 'opt'})
+call minpac#add('milkypostman/vim-togglelist')
+
+call minpac#add('ciaranm/detectindent')
+call minpac#add('xolox/vim-session')
+call minpac#add('jpalardy/vim-slime', {'type': 'opt'})
+
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+set number
+set hlsearch
+if exists('&inccommand')
+  set inccommand=split
+endif
+set colorcolumn=80,120
+set nowrap
+set directory=$HOME/.vimswap/
+set winheight=30
+set winwidth=130
+set winminwidth=30
+silent! set winminheight=5
+set scrolloff=3
+autocmd FileType qf setlocal scrolloff=0
+set encoding=utf-8
+" set completeopt="menu,longest,preview,noinsert"
+set mouse=a
+if has('gui_running')
+  colorscheme evening
+elseif !has('nvim')
+  colorscheme industry
+endif
+
+" Restore sane Y-behavior
+if has('nvim')
+  unmap Y
+endif
+
+" Fix <Alt> key in gnome-terminal
+function FixAltKey()
+  let c='a'
+  while c <= 'z'
+    exec "set <A-".c.">=\e".c
+    exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
+  set timeout ttimeoutlen=50
+endfunction
+if !has('nvim') && !empty($VTE_VERSION)
+  call FixAltKey()
+endif
+
+
+" load project profile
+if getcwd() =~ expand('~/Projects/prezzee-server/[^/]*')
+    set runtimepath+=~/.vim/projects/prezzee/
+elseif getcwd() =~ expand('~/Projects/rope/') || getcwd() =~ expand('~/.vim/pack/lieryan/start/python-mode/submodules/rope') || getcwd() =~ expand('~/Projects/pylsp-rope/')
+    set runtimepath+=~/.vim/projects/rope/
+endif
+
+
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+
+set undofile
+set undodir=$HOME/.vimswap/
+" echo system("find " . shellescape(&undodir) . " -type f -mtime +90 -delete")
+
+" Flip the search direction when using reverse search
+nnoremap <expr> n (v:searchforward ? 'n' : 'N')
+nnoremap <expr> N (v:searchforward ? 'N' : 'n')
+
+imap <NUL> <C-X><C-O>
+
+
+" Quick Fix mapping
+nnoremap <Leader>gn :cnew\|cwindow<CR>
+nnoremap <Leader>gp :colder\|cwindow<CR>
+nnoremap <Leader>Gn :lnew\|lwindow<CR>
+nnoremap <Leader>Gp :lolder\|lwindow<CR>
+nnoremap <C-n> :cnext<CR>
+nnoremap <C-p> :cprevious<CR>
+nnoremap <M-n> :lnext<CR>
+nnoremap <M-p> :lprevious<CR>
+
+" allow cgetbuffer/lgetbuffer to refresh an edited quickfix/locationlist list
+function! ReloadList() abort
+  let winfo=getwininfo(getbufinfo(bufnr())[0].windows[0])[0]
+  if winfo.loclist && &modifiable
+    echo "reloading loclist"
+    lgetbuffer
+  elseif winfo.quickfix && &modifiable
+    echo "reloading quickfix"
+    cgetbuffer
+  endif
+endfunction
+
+function! ReloadAndJump() abort
+  let pos = line('.')
+  if &modified
+    call ReloadList()
+  endif
+  let winfo=getwininfo(getbufinfo(bufnr())[0].windows[0])[0]
+  let cmd = winfo.loclist ? "ll " : (winfo.quickfix ? "cc " : "echomsg ")
+  exec cmd . pos
+endfunction
+
+set errorformat+=%f\|%l\ col\ %c\|%m
+
+augroup Qf
+  autocmd!
+  autocmd FileType qf nnoremap <buffer><silent> d :setlocal modifiable<CR>d
+  autocmd FileType qf nnoremap <buffer><silent> <Enter> :call ReloadAndJump()<CR>
+  autocmd FileType qf vnoremap <buffer><silent> d <Esc>:setlocal modifiable<CR>gvd
+  autocmd FileType qf autocmd BufLeave <buffer=abuf> call ReloadList()
+augroup END
+
+
+" vim-easytest (python test runner)
+let g:easytest_parallel_levels = ["all", "package"]
+let g:easytest_django_extra_opts = "--no-input"
+
+augroup RunTest
+  autocmd!
+  " autocmd FileType python nmap <buffer> <Leader>ut :python3 run_test('test')<CR>
+  " autocmd FileType python nmap <buffer> <Leader>Ut :python3 run_test('test', on_terminal=True)<CR>
+  " autocmd FileType python nmap <buffer> <Leader>uc :python3 run_test('class')<CR>
+  " autocmd FileType python nmap <buffer> <Leader>Uc :python3 run_test('class', on_terminal=True)<CR>
+  " autocmd FileType python nmap <buffer> <Leader>uf :python3 run_test('file')<CR>
+  " autocmd FileType python nmap <buffer> <Leader>Uf :python3 run_test('file', on_terminal=True)<CR>
+  " autocmd FileType python nmap <Leader>up :python3 run_test('package')<CR>
+  " autocmd FileType python nmap <Leader>Up :python3 run_test('package', on_terminal=True)<CR>
+  " autocmd FileType python nmap <Leader>ua :python3 run_test('all')<CR>
+  " autocmd FileType python nmap <Leader>Ua :python3 run_test('all', on_terminal=True)<CR>
+  autocmd FileType python nmap <buffer> <Leader>ut :TestNearest -1<CR>
+  autocmd FileType python nmap <buffer> <Leader>Ut :TestNearest -strategy=custom-term -1<CR>
+  autocmd FileType python nmap <buffer> <Leader>uc :TestClass -1<CR>
+  autocmd FileType python nmap <buffer> <Leader>Uc :TestClass -strategy=custom-term -1<CR>
+  autocmd FileType python nmap <buffer> <Leader>uf :TestFile -1<CR>
+  autocmd FileType python nmap <buffer> <Leader>Uf :TestFile -strategy=custom-term -1<CR>
+  autocmd FileType python nmap <Leader>up :TestFolder<CR>
+  autocmd FileType python nmap <Leader>Up :TestFolder -strategy=custom-term<CR>
+  " autocmd FileType python nmap <Leader>ua :TestSuite<CR>
+  autocmd FileType python nmap <Leader>ua :Dispatch mt<CR>
+  "autocmd FileType python nmap <Leader>Ua :TestSuite -strategy=custom-term<CR>
+  autocmd FileType python nmap <Leader>Ua :Term mt -1<CR>
+
+  autocmd FileType python nmap <buffer> <Leader>ct :python3 run_test('test', coverage=True)<CR>
+  autocmd FileType python nmap <buffer> <Leader>Ct :python3 run_test('test', on_terminal=True, coverage=True)<CR>
+  autocmd FileType python nmap <buffer> <Leader>cc :python3 run_test('class', coverage=True)<CR>
+  autocmd FileType python nmap <buffer> <Leader>Cc :python3 run_test('class', on_terminal=True, coverage=True)<CR>
+  autocmd FileType python nmap <buffer> <Leader>cf :python3 run_test('file', coverage=True)<CR>
+  autocmd FileType python nmap <buffer> <Leader>Cf :python3 run_test('file', on_terminal=True, coverage=True)<CR>
+  autocmd FileType python nmap <Leader>cp :python3 run_test('package', coverage=True)<CR>
+  autocmd FileType python nmap <Leader>Cp :python3 run_test('package', on_terminal=True, coverage=True)<CR>
+  autocmd FileType python nmap <Leader>ca :python3 run_test('all', coverage=True)<CR>
+  autocmd FileType python nmap <Leader>Ca :python3 run_test('all', on_terminal=True, coverage=True)<CR>
+  " autocmd FileType python nmap <buffer> <Leader>ct :TestNearest -vt-coverage<CR>
+  " autocmd FileType python nmap <buffer> <Leader>Ct :TestNearest -strategy=custom-term -vt-coverage<CR>
+  " autocmd FileType python nmap <buffer> <Leader>cc :TestClass -vt-coverage<CR>
+  " autocmd FileType python nmap <buffer> <Leader>Cc :TestClass -strategy=custom-term -vt-coverage<CR>
+  " autocmd FileType python nmap <buffer> <Leader>cf :TestFile -vt-coverage<CR>
+  " autocmd FileType python nmap <buffer> <Leader>Cf :TestFile -strategy=custom-term -vt-coverage<CR>
+  " autocmd FileType python nmap <Leader>cp :TestFolder -vt-coverage<CR>
+  " autocmd FileType python nmap <Leader>Cp :TestFolder -strategy=custom-term -vt-coverage<CR>
+  " autocmd FileType python nmap <Leader>ca :TestSuite -vt-coverage<CR>
+  " autocmd FileType python nmap <Leader>Ca :TestSuite -strategy=custom-term -vt-coverage<CR>
+  
+  " autocmd FileType python nmap <Leader>uu :python3 run_last_test()<CR>
+  " autocmd FileType python nmap <Leader>UU :python3 run_last_test(on_terminal)<CR>
+  autocmd FileType python nmap <Leader>uu :TestLast<CR>
+  autocmd FileType python nmap <Leader>UU :TestLast -strategy=custom-term<CR>
+  autocmd FileType python nmap <C-g> :w<CR><Leader>uu
+  autocmd FileType python imap <C-g> <C-o>:w<CR><C-o><Leader>uu
+augroup END
+
+
+" vim-test
+function! DjangoTest(cmd) abort
+  let mcmd = a:cmd
+  if mcmd =~# "-vt-coverage"
+    let mcmd = substitute(mcmd, '^python manage.py test', 'mt --coverage', '')
+    let mcmd = substitute(mcmd, '-vt-coverage', '', '')
+  endif
+  if mcmd =~# "-1"
+    let mcmd = substitute(mcmd, '-1', '', '')
+  endif
+  return mcmd
+endfunction
+function! DjangoMT(cmd) abort
+  let mcmd = type(a:cmd) == v:t_list ? join(a:cmd, " ") : a:cmd
+  let python_executable = xolox#misc#path#which('python')[0]
+  let mt_executable = xolox#misc#path#which('mt')[0]
+  if mcmd =~# "-vt-coverage"
+    let mcmd = substitute(mcmd, '^python manage.py test', mt_executable . ' --coverage', '')
+    let mcmd = substitute(mcmd, '-vt-coverage', '', '')
+  else
+    let mcmd = substitute(mcmd, '^python manage.py test', mt_executable, '')
+  endif
+  let mcmd = python_executable . " " . mcmd
+  return mcmd
+endfunction
+function! PyTest(cmd) abort
+  let mcmd = a:cmd
+  if a:cmd =~# "-1"
+    let mcmd = substitute(mcmd, '-1', '-s', '')
+  endif
+  return mcmd
+endfunction
+let g:test#custom_transformations = {'djangotest': function('DjangoTest'), 'pytest': function('PyTest'), 'djangoprezzee': function('DjangoMT')}
+let g:test#transformation = 'pytest'
+let g:test#python#pytest#file_pattern = '\v(test_[^/]+|[^/]+_test|test)\.py$'
+
+function! SmartDispatch(cmd)
+  if !executable('is-debugger-enabled')
+    echoerr 'is-debugger-enabled is missing'
+  endif
+  call system('is-debugger-enabled')
+  if v:shell_error
+    " no-debugger
+    execute 'Dispatch '.a:cmd
+  else
+    " debugger
+    execute 'Term '.a:cmd
+  endif
+endfunction
+
+function! CustomTerm(cmd)
+  execute 'Term '.a:cmd
+endfunction
+
+let g:test#custom_strategies = { 'smart-dispatch': function('SmartDispatch'), 'custom-term': function('CustomTerm') }
+" if !empty($KITTY_LISTEN_ON)
+"   let g:test#strategy = 'kitty'
+" else
+"   let g:test#strategy = 'smart-dispatch'
+" endif
+let g:test#strategy = 'smart-dispatch'
+
+" Hide Omni Documentation when moving away
+autocmd CompleteDone * silent! pclose
+
+" Better key map on omnicomplete
+" inoremap <expr> <Backspace>  pumvisible() ? "\<C-e>" : "\<Backspace>"
+" inoremap <expr> <Tab>        pumvisible() ? "\<C-y>" : "\<Tab>"
+" inoremap <expr> <CR>         pumvisible() ? "\<C-y>" : "\<CR>"
+" inoremap <expr> <Down>       pumvisible() ? "\<C-n>" : "\<Down>"
+" inoremap <expr> <Up>         pumvisible() ? "\<C-p>" : "\<Up>"
+" inoremap <expr> <PageDown>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+" inoremap <expr> <PageUp>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+
+" show tabs
+set list
+set listchars=tab:>-
+
+" Detect indentation
+autocmd BufReadPost * :DetectIndent 
+let g:detectindent_preferred_indent = 4 
+let g:detectindent_preferred_expandtab = 1
+
+let g:session_autosave='yes'
+let g:session_autosave_periodic='3'
+
+autocmd FileType javascript,html,htmldjango nnoremap <buffer> gpd Odebugger;<Esc>
+
+" let g:syntastic_mode_map = { "mode": "passive" }
+
+" vim-jedi is slow when showing function definition
+let g:jedi#show_call_signatures = 0
+let g:jedi#popup_on_dot = 0
+
+
+" vim-session
+let g:session_directory='~/.vimsession'
+let g:session_autoload = 'no'
+
+" remove toolbar and menu in Vim GUI
+if has('gui')
+  set guioptions -=m 
+  set guioptions -=T
+endif
+
+set linebreak
+
+let g:deoplete#enable_at_startup = 1
+
+" workaround for https://github.com/neovim/neovim/issues/2127
+if has('nvim')
+  autocmd VimResume,BufEnter,FocusGained * if mode() != 'c' | checktime | endif
+endif
+
+if executable('ack')
+  set grepprg=ack\ --ignore-dir=coverage_html_report\ --ignore-dir=htmlcov\ --ignore-dir=test-reports\ --column
+  set grepformat=%f:%l:%c:%m,%f:%l:%m,%f:%l%m,%f\ \ %l%m
+  cnoreabbrev gr lgrep -k
+  cnoreabbrev grU lgrep --type=urls
+endif
+
+" custom searches (g/)
+" for (c)lass, (m)ethod, (i)mport, django m(o)del, django (v)iew,
+" (b)reakpoint, (w)ord, and current (f)ilename. Uppercase for global search.
+" Also, g// and g/? to search for all python objects (class, method, import)
+autocmd FileType python nnoremap <buffer> g/c /^\s*class *\zs
+autocmd FileType python nnoremap <buffer> g/m /^\s*\(async *\)\?def *\zs
+autocmd FileType python nnoremap <buffer> g/i /import .*\zs
+autocmd FileType python nnoremap <buffer> g// /\(^\s*class *\\|^\s*\(async *\)\?def *\\|import *.*\)\zs
+autocmd FileType python nnoremap g/C :lgrep! -i '^\s*class +\K'<Left>
+autocmd FileType python nnoremap g/M :lgrep -i '^\s*(async +)?def *\K'<Left>
+autocmd FileType python nnoremap g/O :lgrep -i '^\s*class +\K.*Model(Mixin)?(\s*\)\\|\s*,.*)' */models.py<C-f>^f.i<C-c>
+autocmd FileType python nnoremap g/V :lgrep -i '^\s*class +\K.*View(\s*\)\\|\s*,.*)' */views.py<C-f>^f.i<C-c>
+autocmd FileType python nnoremap g/D :lgrep -i '' --ignore-dir=tests<C-f>^f'a<C-c>
+" autocmd FileType python nnoremap g/I :lgrep! 'import .*'<Left>
+autocmd FileType python nnoremap g/I :new<CR>:%!ack -i --type=python --no-filename 'import .*' \| sed 's/^ *//;s/ *$//' \| sort \| uniq \| awk '{ print length, $0 }' \| sort -r -g \| cut -f 2- -d ' '<C-f>^2f'i<C-c>
+autocmd FileType python nnoremap g/? :lgrep! -i '^\s*(class +\\|(async +)?def +\\|import *.*)\K'<Left>
+autocmd FileType python nnoremap g/B :lgrep! '(from (pdb\\|IPython\\|ptpython.repl\\|pudb\\|pudb.remote\\|rpudb\\|ipdb\\|code) import\\|^\s*[[:digit:]]/0\s*$)\\|debugger;'<CR>
+autocmd FileType python nnoremap g/b :lgrep '(from (pdb\\|IPython\\|ptpython.repl\\|pudb\\|pudb.remote\\|rpudb\\|ipdb\\|code) import)\\|debugger;'<CR><CR>
+nnoremap g/w :lgrep -w <C-r><C-w><CR>
+nnoremap g/W :lgrep '(?<!import.{0,220})'<Left><C-r><C-w><CR>
+autocmd FileType python nmap g/nf yinfg/w
+autocmd FileType python nmap g/nc yincg/w
+autocmd FileType python nmap g/uf yinf:lgrep -w <C-r><C-w> */urls.py<CR>
+autocmd FileType python nmap g/uc yinc:lgrep -w <C-r><C-w> */urls.py<CR>
+
+autocmd FileType python
+      \ nnoremap <buffer> g/e /^<C-r>=repeat(" ", indent('.'))<CR>\zs\(if\\|else\\|elif\)<CR>
+
+nnoremap g/f :lgrep %:t<CR>
+
+" search path for :find
+set path+=**
+set wildignore+=*.pyc
+
+" terminal mapping
+if has('nvim')
+  tnoremap <C-W><C-W> <C-\><C-N><C-W><C-W>
+  tnoremap <C-W><C-N> <C-\><C-N>
+  tnoremap <C-W>h <C-\><C-N><C-W>h
+  tnoremap <C-W>j <C-\><C-N><C-W>j
+  tnoremap <C-W>k <C-\><C-N><C-W>k
+  tnoremap <C-W>l <C-\><C-N><C-W>l
+
+  function! s:TermSplit(...)
+    let bufid = bufnr('#')
+    exe "term " . get(a:, 1, "env -u CD_VIRTUAL_ENV -u VIRTUAL_ENV zsh -J")
+    startinsert
+    call setbufvar(bufid, "slime_config", {"jobid": b:terminal_job_id})
+  endfunction
+
+  command! -nargs=? -complete=shellcmd Term new|call s:TermSplit(<f-args>)
+  command! -nargs=? -complete=shellcmd VTerm vnew|call s:TermSplit(<f-args>)
+  autocmd TermOpen * nnoremap <buffer> o i
+else
+  function! s:AutoConfigureSlime()
+    let bufid = bufnr('#')
+    call setbufvar(bufid, "slime_config", {"bufnr": bufnr()})
+    if getbufvar(bufid, "&filetype") == "python"
+      let g:slime_python_ipython = 1
+    endif
+  endfunction
+
+  tnoremap <C-W>n <C-W>N
+  tnoremap <C-W><C-n> <C-W>N
+  command! -nargs=? -complete=shellcmd Term term <args>
+  command! -nargs=? -complete=shellcmd VTerm vert term <args>
+  autocmd TerminalOpen * nnoremap <buffer> p i<C-w>""<C-w>N
+  autocmd TerminalOpen * nnoremap <buffer> o i
+  autocmd TerminalOpen * call s:AutoConfigureSlime()
+endif
+
+function! OpenInBrowser(url)
+  "file:///Users/lieryan/Projects/prezzee-server/SRV-3012/app/htmlcov/business_views_py.html#n123
+  call system("osascript -e 'tell application \"Firefox\"' -e 'open location \"'" . shellescape(a:url) . "'\"' -e 'activate' -e 'end tell'")
+endfunction
+
+function! OpenCoverage()
+  echo OpenInBrowser("file://" . getcwd() . "/htmlcov/" . substitute(@%, "[/.]", "_", "g") . ".html#n" . line("w0"))
+endfunction
+nnoremap <Leader>cv :call OpenCoverage()<CR>
+
+
+" immediately update GitGutter on write instead of waiting for update timeout
+autocmd BufWritePost * GitGutter
+
+nnoremap gb :Git blame<CR>
+
+nnoremap <Leader>hf :Gcommit --fixup=<C-R><C-W>
+
+" Django
+command! -nargs=* Django :Term m <f-args>
+command! -nargs=* Dshell :Term m shell <f-args>
+
+vnoremap // y/\V<C-R>"
+vnoremap ?? y:lgrep '<C-R>"'
+
+" ALE
+let g:ale_python_pylint_options = '--rcfile .pylintrc'
+let g:ale_linters={'python': ['bandit', 'pyflakes', 'mypy']}
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 0
+nnoremap ]x :ALENext<CR>
+nnoremap [x :ALEPrevious<CR>
+nnoremap ]X :ALENextWrap<CR>
+nnoremap [X :ALEPreviousWrap<CR>
+
+" Swap 0 and ^
+nnoremap <expr> 0 (indent('.') == getcurpos()[2] - 1) ? '0' : '^'
+
+" Disable close all pane except current pane, this is too easily triggered
+" accidentally when using <C-o> to move to previous file navigation
+map <C-w><C-o> <Nop>
+map <C-w>o <Nop>
+tmap <C-w><C-o> <Nop>
+tmap <C-w>o <Nop>
+
+" Go to next/prev tab
+noremap <A-k> gT
+noremap <A-j> gt
+
+" Window navigation
+noremap <C-h> <C-w><C-h>
+noremap <C-j> <C-w><C-j>
+noremap <C-k> <C-w><C-k>
+noremap <C-l> <C-w><C-l>
+" noremap <C-w>H <C-w>H<C-w>100+
+" noremap <C-w>L <C-w>L<C-w>100+
+
+" Larger scrolling distance
+noremap <C-e> 3<C-e>
+noremap <C-y> 3<C-y>
+
+" VIMPIDE
+packadd vim-location-awareness
+
+
+" add pane number to status line
+set statusline=
+set statusline+=%{winnr()}\ 
+set statusline+=%{exists('b:terminal_job_id')?'j-'.b:terminal_job_id:''}\ 
+set statusline+=%<%f::
+set statusline+=%{locationawareness#LocationAwareness(0)}
+set statusline+=%h%m%r%=<%{gutentags#statusline()}>\ %-14.(%l,%c%V%)\ %P " 'standard' status line
+nnoremap gl :call locationawareness#toggle_format()<CR>
+" autocmd FileType python autocmd CursorHold,CursorHoldI let b:statusline_location_awareness = LocationAwareness()
+
+" git mappings
+nnoremap <Leader>ha :Gcommit --amend<CR>
+nnoremap <Leader>he :Gpush<CR>
+nnoremap <Leader>hE :Gpush --force-with-lease<CR>
+autocmd FileType git nnoremap = za
+
+" avoid conflict between UltiSnips and YouCompleteMe
+let g:UltiSnipsExpandTrigger="<c-j>"
+
+let g:netrw_list_hide='__pycache__'
+
+
+" tagfile management
+let g:gutentags_ctags_extra_args=[
+    \'--exclude=app/static/lib',
+    \'--exclude=app/static/business/plugins',
+    \'--exclude=app/static/business/js',
+    \'--exclude=app/htmlcov',
+    \'--exclude=app/coverage_html_report',
+    \'--exclude=node_modules',
+    \'--exclude=app/merchant/wex.py',
+    \'--python-kinds=-i',
+    \]
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
+
+" vim-argwrap
+nnoremap <silent> <leader>a :ArgWrap<CR>
+let g:argwrap_tail_comma = 1
+
+nmap ;; :GFiles?<CR>
+nmap ;f :Files<CR>
+nmap ;b :Buffers<CR>
+nmap ;t :Tags<CR>
+
+let g:asyncomplete_auto_popup = 0
+
+" reformat SQL
+vnoremap <Leader>rs :!sqlformat --indent_columns -s -
+nmap <Leader>rs vap<Leader>rs<CR>
+
+let g:pymode_options = 0
+let g:pymode_rope = 1
+let g:pymode_rope_autoimport=1
+" let g:pymode_folding = 0
+" let g:pymode_rope_always_show_complete_menu = 0
+" let g:pymode_rope_guess_project = 0
+let g:pymode_rope_autoimport_modules = ['os', 'subprocess', 'requests', 'django', 'nonexit']
+let g:pymode_rope_autoimport_import_after_complete = 1
+let g:pymode_rope_complete_on_dot = 0
+let g:pymode_rope_completion = 0 " disable to use jedi-vim
+let g:pymode_rope_completion_bind = "<C-b>"
+" let g:pymode_lint_ignore = "W191"
+let g:pymode_lint = 1
+let g:pymode_lint_on_write = 0
+let g:pymode_lint_ignore = ["E501", "W0401"]
+
+
+" vim-slime
+let g:slime_no_mappings = 1
+xmap <leader>z <Plug>SlimeRegionSend
+nmap <leader>z <Plug>SlimeMotionSend
+nmap <leader>zz <Plug>SlimeLineSend
+
+" vim-enmasse
+abbrev EnM cgetbuffer<Bar>EnMasse
+
+
+" vim-fzf
+let g:fzf_layout = { 'down': '40%' }
+
+
+" ultisnips
+let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
+
+
+" vim-lsp
+let g:lsp_virtual_text_enabled = 0
+let g:lsp_highlight_references_enabled = 0
+let g:lsp_highlight_enabled = 0
+let g:lsp_highlight_references_delay = 0
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_format_sync_timeout = 1000
+let g:lsp_work_done_progress_enabled = 1
+let g:lsp_document_code_action_signs_enabled = 0
+
+if executable('pylsp')
+    " To enable pylsp-rope logging:
+    " \ 'cmd': {server_info->['pylsp', '-v', '--log-file', '/tmp/log.txt']},
+
+    " autocmd User lsp_setup call lsp#register_server({
+    "     \ 'name': 'pylsp-debug',
+    "     \ 'cmd': ["nc", "localhost", "8772"],
+    "     \ 'allowlist': ['python'],
+    "     \ })
+    autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'pylsp',
+        \ 'cmd': {server_info->['pylsp', '-v', '--log-file', '/tmp/log.txt']},
+        \ 'allowlist': ['python'],
+        \ })
+elseif executable('pyls')
+    autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'allowlist': ['python'],
+        \ })
+endif
+
+highlight LspDiagnosticsDefaultWarning ctermfg=57
+
+function! s:on_lsp_buffer_enabled() abort
+    " setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> <Leader>cr <plug>(lsp-rename)
+    nmap <buffer> <Leader>cc <plug>(lsp-hover)
+    nmap <buffer> <Leader><Leader> <plug>(lsp-code-action)
+    vmap <buffer> <Leader><Leader> :LspCodeAction<CR>
+endfunction
+augroup lsp_install
+    autocmd!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+" " ALE LSP
+" let g:ale_linters = {
+" \   'python': ['flake8', 'pylsp', 'bandit', 'mypy'],
+" \}
+" let g:ale_python_pylsp_options = '-v --log-file /tmp/ale-pylsp.log'
+
+" nvim native LSP
+if has('nvim')
+
+lua << EOF
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<Leader>ba', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('v', '<Leader>ba', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+-- local servers = { 'pylsp' }
+-- for _, lsp in ipairs(servers) do
+--   nvim_lsp[lsp].setup {
+--     cmd = { "pylsp", "-v", "--log-file", "/tmp/nvimlsp.log" },
+--     on_attach = on_attach,
+--     flags = {
+--       debounce_text_changes = 150,
+--     }
+--   }
+-- end
+
+require'lspconfig'.pylsp.setup{
+  -- To enable pylsp-rope logging
+  -- cmd = { "pylsp", "-v", "--log-file", "/tmp/nvimlsp.log" },
+  cmd = { "pylsp" },
+
+  on_attach = on_attach,
+  -- flags = {
+  --   debounce_text_changes = 150,
+  -- }
+}
+
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+EOF
+endif
