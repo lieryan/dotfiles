@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+exec ack 'from (IPython|pudb|pudb.remote) import' --type=python
