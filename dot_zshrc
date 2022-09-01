@@ -50,9 +50,9 @@ ZSH_THEME="lieryan"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 if [ $(hostname) = 'alpha' ]; then
-  plugins=(git-prompt virtualenv jira)
+  plugins=(git-prompt poetry virtualenv jira)
 else
-  plugins=(git-prompt virtualenv virtualenvwrapper jira)
+  plugins=(git-prompt poetry virtualenv jira virtualenvwrapper)
 fi
 
 # User configuration
