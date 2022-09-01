@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+sudo apt install python3-venv
+
+pip install --user \
+    virtualenvwrapper \
+    pipx
+
+python3 -m pipx ensurepath
+
+python3 -m pipx install cookiecutter 
+python3 -m pipx install poetry
