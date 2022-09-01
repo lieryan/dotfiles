@@ -1,11 +1,13 @@
 [include]
 	path = ~/Dropbox/settings/git/dot-gitconfig
 
-{{ if eq .chezmoi.hostname "alpha" }}
 [user]
+{{ if eq .chezmoi.hostname "alpha" }}
 	email = lie.1296@gmail.com
-	name = Lie Ryan
+{{ else if eq .chezmoi.hostname "ryan-epsilon" }}
+	email = ryan.lie@firmus.co
 {{ end }}
+	name = Lie Ryan
 
 [commit]
 	gpgsign = true
