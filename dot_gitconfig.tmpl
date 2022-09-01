@@ -1,0 +1,20 @@
+[include]
+	path = ~/Dropbox/settings/git/dot-gitconfig
+
+{{ if eq .chezmoi.hostname "alpha" }}
+[user]
+	email = lie.1296@gmail.com
+	name = Lie Ryan
+{{ end }}
+
+[commit]
+	gpgsign = true
+
+[tag]
+	gpgSign = true
+
+[core]
+	editor = /usr/bin/vim
+
+[init]
+	defaultBranch = main
