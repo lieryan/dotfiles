@@ -10,3 +10,4 @@ python3 -m pipx ensurepath
 
 python3 -m pipx install cookiecutter 
 python3 -m pipx install poetry
+python3 -m pipx install pre-commit
