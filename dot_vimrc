@@ -532,14 +532,11 @@ let g:netrw_list_hide='__pycache__'
 
 
 " tagfile management
+let g:gutentags_ctags_exclude=[
+    \'.pytest_cache',
+    \'node_modules',
+    \]
 let g:gutentags_ctags_extra_args=[
-    \'--exclude=app/static/lib',
-    \'--exclude=app/static/business/plugins',
-    \'--exclude=app/static/business/js',
-    \'--exclude=app/htmlcov',
-    \'--exclude=app/coverage_html_report',
-    \'--exclude=node_modules',
-    \'--exclude=app/merchant/wex.py',
     \'--python-kinds=-i',
     \]
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
