@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-echo "installing zsh"
-sudo apt install zsh python3-pip
-pip install --user virtualenvwrapper
-
-echo "changing shell to zsh"
-chsh -s /usr/bin/zsh

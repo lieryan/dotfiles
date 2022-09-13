@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+pip install --user virtualenvwrapper
+
+if true; then
+    echo "installing xonsh"
+    pipx install 'xonsh[full]'
+
+    echo "changing shell to xonsh"
+    chsh -s /home/lieryan/.local/bin/xonsh
+else
+    echo "installing zsh"
+    sudo apt install zsh python3-pip
+
+    echo "changing shell to zsh"
+    chsh -s /usr/bin/zsh
+fi
