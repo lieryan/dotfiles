@@ -35,7 +35,7 @@ def _cwd_abbrev():
 
 
 def _autouser():
-    return '' if os.getlogin() == 'lieryan' else os.getlogin()
+    return "" if os.getlogin() == "lieryan" else os.getlogin()
 
 def _prompt():
     return '{autouser}{YELLOW}{env_name}{BOLD_BLUE}{BOLD_GREEN}{cwd_abbrev}{RESET} {prompt_end} '
@@ -43,6 +43,6 @@ def _prompt():
 $PROMPT_FIELDS["cwd_abbrev"] = _cwd_abbrev
 $PROMPT_FIELDS["autouser"] = _autouser
 
-$BOTTOM_TOOLBAR = '{gitstatus}'
-$RIGHT_PROMPT = '# {localtime}'
+$BOTTOM_TOOLBAR = "{gitstatus.operations}{gitstatus}"
+$RIGHT_PROMPT = "# {localtime}"
 $PROMPT = _prompt
