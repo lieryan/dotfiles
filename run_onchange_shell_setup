@@ -6,14 +6,17 @@ if true; then
     echo "installing xonsh"
     pipx install 'xonsh[full]'
 
-    ~/.local/pipx/venvs/xonsh/bin/python install xontrib-avox xontrib-avox-poetry
+    ~/.local/pipx/venvs/xonsh/bin/python -m pip install xontrib-avox xontrib-avox-poetry
 
-    echo "changing shell to xonsh"
-    chsh -s /home/lieryan/.local/bin/xonsh
+    WANT_SHELL=/home/lieryan/.local/bin/xonsh
 else
     echo "installing zsh"
     sudo apt install zsh python3-pip
 
-    echo "changing shell to zsh"
-    chsh -s /usr/bin/zsh
+    WANT_SHELL=/usr/bin/zsh
+fi
+
+if [ "$(getent passwd $USER | cut -d ':' -f 7)" != $WANT_SHELL ]; then
+    echo "changing shell to $WANT_SHELL"
+    chsh -s $WANT_SHELL
 fi
