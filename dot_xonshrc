@@ -16,8 +16,14 @@ $XONSH_CTRL_BKSP_DELETION = '1'
 $XONSH_HISTORY_BACKEND = 'json'
 $XONSH_HISTORY_SIZE = '7889400.0 s'
 # source-zsh "echo loading xonsh foreign shell"
-xontrib load vox avox_poetry argcomplete cmd_done docker_tabcomplete hist_navigator kitty whole_word_jumping
+xontrib load argcomplete cmd_done docker_tabcomplete hist_navigator kitty whole_word_jumping
 # XONSH WIZARD END
+
+xontrib load vox autovox avox_poetry
+$VIRTUALENV_HOME = "~/.virtualenvs/"
+aliases["workon"] = "vox workon"
+aliases["deactivate"] = "vox deactivate"
+$PROJECT_DIRS = [p"~/Projects"]
 
 $PATH.extend(["$HOME/bin", "$HOME/.local/bin"])
 
@@ -38,7 +44,8 @@ def _autouser():
     return "" if os.getlogin() == "lieryan" else os.getlogin()
 
 def _prompt():
-    return '{autouser}{YELLOW}{env_name}{BOLD_BLUE}{BOLD_GREEN}{cwd_abbrev}{RESET} {prompt_end} '
+    return "{YELLOW}{env_name}{BOLD_GREEN}{autouser}{BOLD_BLUE}{BOLD_GREEN}{cwd_abbrev}{RESET} {prompt_end} "
+
 
 $PROMPT_FIELDS["cwd_abbrev"] = _cwd_abbrev
 $PROMPT_FIELDS["autouser"] = _autouser

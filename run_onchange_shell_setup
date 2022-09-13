@@ -6,6 +6,8 @@ if true; then
     echo "installing xonsh"
     pipx install 'xonsh[full]'
 
+    ~/.local/pipx/venvs/xonsh/bin/python install xontrib-avox xontrib-avox-poetry
+
     echo "changing shell to xonsh"
     chsh -s /home/lieryan/.local/bin/xonsh
 else
