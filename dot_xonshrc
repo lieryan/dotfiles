@@ -11,7 +11,7 @@ $DYNAMIC_CWD_WIDTH = '40'
 $ENABLE_ASYNC_PROMPT = '0'
 $FUZZY_PATH_COMPLETION = ''
 $UPDATE_OS_ENVIRON = '1'
-$VI_MODE = '0'
+$VI_MODE = '1'
 $XONSH_CTRL_BKSP_DELETION = '1'
 $XONSH_HISTORY_BACKEND = 'json'
 $XONSH_HISTORY_SIZE = '7889400.0 s'
@@ -32,7 +32,11 @@ from pathlib import Path
 
 
 def _cwd_abbrev():
-    cwd: Path = Path(str(Path.cwd()).replace(str(Path.home()), '~'))
+    try:
+        cwd = Path.cwd()
+    except FileNotFoundError:
+        cwd = os.environ["PWD"]
+    cwd: Path = Path(str(cwd).replace(str(Path.home()), '~'))
     parts: list = [p[:2] for p in cwd.parts[:-1]] + [cwd.parts[-1]]
     cwd = str(Path(*parts))
     if len(cwd) > $DYNAMIC_CWD_WIDTH[0]:
