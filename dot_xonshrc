@@ -68,3 +68,7 @@ def install_pydev_tools(name: str, path: Path):
     else:
         # dev tools already installed
         pass
+
+
+def s(cmd):
+    return ![ xonsh -c @(cmd) ]
