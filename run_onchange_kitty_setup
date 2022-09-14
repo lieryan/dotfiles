@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Installing kitty"
+~/bin/update-kitty.sh launch=n
