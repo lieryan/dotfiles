@@ -13,8 +13,8 @@ $FUZZY_PATH_COMPLETION = ''
 $UPDATE_OS_ENVIRON = '1'
 $VI_MODE = '1'
 $XONSH_CTRL_BKSP_DELETION = '1'
-$XONSH_HISTORY_BACKEND = 'json'
-$XONSH_HISTORY_SIZE = '7889400.0 s'
+$XONSH_HISTORY_BACKEND = 'sqlite'
+$XONSH_HISTORY_SIZE = '10000'
 # source-zsh "echo loading xonsh foreign shell"
 xontrib load argcomplete cmd_done docker_tabcomplete hist_navigator kitty whole_word_jumping
 # XONSH WIZARD END
