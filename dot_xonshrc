@@ -61,10 +61,11 @@ $PROMPT = _prompt
 
 @events.vox_on_activate
 def install_pydev_tools(name: str, path: Path):
-    if len(pf`{path}/lib/python[\\d.]*/site-packages/(pudb|ipykernel|IPython)` ) != 3:
+    tools = ["IPython", "pudb", "ipykernel", "pylsp-rope", "pylsp-mypy"]
+    if len(pf`{path}/lib/python[\\d.]*/site-packages/({"|".join(tools).replace("-", "_")})`) != len(tools):
         print("installing dev tools")
         python_executable = Path(path) / "bin/python"
-        @(python_executable) -m pip install pudb ipykernel ipython
+        @(python_executable) -m pip install @(tools)
     else:
         # dev tools already installed
         pass
