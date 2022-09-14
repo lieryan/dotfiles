@@ -406,6 +406,9 @@ nnoremap g/f :lgrep %:t<CR>
 " search path for :find
 set path+=**
 set wildignore+=*.pyc
+set wildignore+=**/node_modules/**
+set wildignore+=**/__pycache__/**
+set wildignore+=tags
 
 " terminal mapping
 if has('nvim')
