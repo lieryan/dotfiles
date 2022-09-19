@@ -3,6 +3,7 @@
 case "$(uname -s)" in
     Linux*)
         sudo apt install \
+            vim \
             vim-gtk \
             exuberant-ctags \
             fzf \
