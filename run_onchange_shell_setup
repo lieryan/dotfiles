@@ -4,7 +4,7 @@ pip install --user virtualenvwrapper
 
 if true; then
     echo "installing xonsh"
-    pipx install 'xonsh[full]'
+    ~/.local/bin/pipx install 'xonsh[full]'
 
     ~/.local/pipx/venvs/xonsh/bin/python -m pip install xontrib-avox xontrib-avox-poetry
 
