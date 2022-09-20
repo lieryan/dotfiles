@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-sudo apt install python3-venv python3-pip
+sudo apt install \
+    --no-install-recommends \
+    jupyter-qtconsole \
+    python3-pip \
+    python3-venv
 
 pip install --user \
     virtualenvwrapper \
