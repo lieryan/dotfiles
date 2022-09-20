@@ -12,7 +12,6 @@ if true; then
         xontrib-argcomplete \
         xontrib-avox \
         xontrib-avox-poetry \
-        xontrib-cmd-durations \
         xontrib-hist-navigator \
         xontrib-kitty
 

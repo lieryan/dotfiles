@@ -16,7 +16,7 @@ $XONSH_CTRL_BKSP_DELETION = '1'
 $XONSH_HISTORY_BACKEND = 'sqlite'
 $XONSH_HISTORY_SIZE = '10000'
 # source-zsh "echo loading xonsh foreign shell"
-xontrib load argcomplete cmd_done docker_tabcomplete hist_navigator kitty whole_word_jumping
+xontrib load argcomplete docker_tabcomplete hist_navigator kitty whole_word_jumping
 # XONSH WIZARD END
 
 xontrib load vox autovox avox_poetry
@@ -55,7 +55,7 @@ $PROMPT_FIELDS["cwd_abbrev"] = _cwd_abbrev
 $PROMPT_FIELDS["autouser"] = _autouser
 
 $BOTTOM_TOOLBAR = "{gitstatus.operations}{gitstatus}"
-$RIGHT_PROMPT = "# {long_cmd_duration:⌛{}/}{localtime}"
+$RIGHT_PROMPT = "# {localtime}"
 
 $PROMPT = _prompt
 
