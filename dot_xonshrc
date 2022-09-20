@@ -55,7 +55,8 @@ $PROMPT_FIELDS["cwd_abbrev"] = _cwd_abbrev
 $PROMPT_FIELDS["autouser"] = _autouser
 
 $BOTTOM_TOOLBAR = "{gitstatus.operations}{gitstatus}"
-$RIGHT_PROMPT = "# {localtime}"
+$RIGHT_PROMPT = "# {long_cmd_duration:⌛{}/}{localtime}"
+
 $PROMPT = _prompt
 
 
