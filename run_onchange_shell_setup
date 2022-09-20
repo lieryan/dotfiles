@@ -6,7 +6,15 @@ if true; then
     echo "installing xonsh"
     ~/.local/bin/pipx install 'xonsh[full]'
 
-    ~/.local/pipx/venvs/xonsh/bin/python -m pip install xontrib-avox xontrib-avox-poetry
+    echo "Installing xontribs"
+    ~/.local/pipx/venvs/xonsh/bin/python -m pip install \
+        xonsh-docker-tabcomplete \
+        xontrib-argcomplete \
+        xontrib-avox \
+        xontrib-avox-poetry \
+        xontrib-cmd-durations \
+        xontrib-hist-navigator \
+        xontrib-kitty
 
     WANT_SHELL=/home/lieryan/.local/bin/xonsh
 else
