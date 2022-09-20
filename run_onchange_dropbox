@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+sudo apt install python3-gpg
+
+if [[ ! -e ~/Downloads/dropbox.deb ]]; then
+    wget --output-document=$HOME/Downloads/dropbox.deb https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
+    sudo dpkg -i ~/Downloads/dropbox.deb
+    dropbox start -i
+fi
