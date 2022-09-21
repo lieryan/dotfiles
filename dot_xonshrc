@@ -7,7 +7,7 @@ $COMPLETIONS_BRACKETS = ''
 $COMPLETION_IN_THREAD = '1'
 $DYNAMIC_CWD_ELISION_CHAR = '…'
 $DYNAMIC_CWD_WIDTH = '40'
-$ENABLE_ASYNC_PROMPT = '1'
+$ENABLE_ASYNC_PROMPT = '0'
 $FUZZY_PATH_COMPLETION = ''
 $UPDATE_OS_ENVIRON = '1'
 $VI_MODE = '1'
@@ -33,34 +33,20 @@ import os
 from pathlib import Path
 
 
-def _cwd_abbrev():
-    try:
-        cwd = Path.cwd()
-    except FileNotFoundError:
-        cwd = os.environ["PWD"]
-    cwd: Path = Path(str(cwd).replace(str(Path.home()), '~'))
-    parts: list = [p[:2] for p in cwd.parts[:-1]] + [cwd.parts[-1]]
-    cwd = str(Path(*parts))
-    if len(cwd) > $DYNAMIC_CWD_WIDTH[0]:
-        cwd = $DYNAMIC_CWD_ELISION_CHAR + cwd[-int($DYNAMIC_CWD_WIDTH[0]):]
-    return cwd
-
-
 def _autouser():
-    return "" if os.getlogin() == "lieryan" else os.getlogin()
-
-def _prompt():
-    return "{YELLOW}{env_name}{BOLD_GREEN}{autouser}{BOLD_BLUE}{BOLD_GREEN}{cwd_abbrev}{RESET}{prompt_end} "
+    return None if os.getlogin() == "lieryan" else os.getlogin()
 
 
-$PROMPT_FIELDS["cwd_abbrev"] = _cwd_abbrev
 $PROMPT_FIELDS["autouser"] = _autouser
 
-$BOTTOM_TOOLBAR = "{gitstatus.operations}{gitstatus}"
+$BOTTOM_TOOLBAR = "{gitstatus.operations}"
 $RIGHT_PROMPT = "# {localtime}"
 
-$PROMPT = _prompt
-
+$PROMPT = (
+    "{YELLOW}{env_name}{RESET}{gitstatus:[{}]}{RESET}\n"
+    "{autouser:{BOLD_GREEN}{}{RESET}@}{hostname:{BOLD_CYAN}{}{RESET}:}{BOLD_BLUE}{short_cwd}{RESET}"
+    "{last_return_code_if_nonzero:{BOLD_RED}}{prompt_end}{RESET} "
+)
 
 @events.vox_on_activate
 def install_pydev_tools(name: str, path: Path):
