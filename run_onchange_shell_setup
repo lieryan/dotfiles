@@ -3,6 +3,9 @@
 pip install --user virtualenvwrapper
 
 if true; then
+    # needed by pyperclip, dependency of xonsh's vim mode
+    sudo apt install xsel
+
     echo "installing xonsh"
     ~/.local/bin/pipx install 'xonsh[full]'
 
