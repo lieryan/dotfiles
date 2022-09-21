@@ -48,7 +48,7 @@ def _autouser():
     return "" if os.getlogin() == "lieryan" else os.getlogin()
 
 def _prompt():
-    return "{YELLOW}{env_name}{BOLD_GREEN}{autouser}{BOLD_BLUE}{BOLD_GREEN}{cwd_abbrev}{RESET} {prompt_end} "
+    return "{YELLOW}{env_name}{BOLD_GREEN}{autouser}{BOLD_BLUE}{BOLD_GREEN}{cwd_abbrev}{RESET}{prompt_end} "
 
 
 $PROMPT_FIELDS["cwd_abbrev"] = _cwd_abbrev
