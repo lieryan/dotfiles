@@ -3,8 +3,8 @@ $AUTO_CD = '1'
 $AUTO_CONTINUE = '1'
 $AUTO_PUSHD = '1'
 $COMMANDS_CACHE_SAVE_INTERMEDIATE = '1'
-$COMPLETIONS_BRACKETS = ''
 $COMPLETION_IN_THREAD = '1'
+$COMPLETIONS_BRACKETS = ''
 $DYNAMIC_CWD_ELISION_CHAR = '…'
 $DYNAMIC_CWD_WIDTH = '40'
 $ENABLE_ASYNC_PROMPT = '0'
@@ -22,10 +22,10 @@ xontrib load argcomplete docker_tabcomplete hist_navigator kitty whole_word_jump
 #$AUTO_SUGGEST_IN_COMPLETIONS = '1'
 
 xontrib load vox autovox avox_poetry
-$VIRTUALENV_HOME = "~/.virtualenvs/"
+$VIRTUALENV_HOME = str(p"~/.virtualenvs/")
 aliases["workon"] = "vox workon"
 aliases["deactivate"] = "vox deactivate"
-$PROJECT_DIRS = [p"~/Projects"]
+$PROJECT_DIRS = [str(p"~/Projects")]
 
 $PATH.extend(["$HOME/bin", "$HOME/.local/bin"])
 
