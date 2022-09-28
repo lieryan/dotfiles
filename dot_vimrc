@@ -52,7 +52,7 @@ call minpac#add('bps/vim-textobj-python', {'type': 'opt'})
 " git
 call minpac#add('tpope/vim-fugitive', {'pullmethod': 'autostash'})
 call minpac#add('tommcdo/vim-fubitive')
-call minpac#add('tpope/vim-rhubarb.git')
+call minpac#add('tpope/vim-rhubarb')
 call minpac#add('airblade/vim-gitgutter')
 
 " extra actions
@@ -598,9 +598,9 @@ let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
 
 
 " vim-lsp
-let g:lsp_virtual_text_enabled = 0
-let g:lsp_highlight_references_enabled = 0
-let g:lsp_highlight_enabled = 0
+let g:lsp_virtual_text_enabled = 1
+let g:lsp_highlight_references_enabled = 1
+let g:lsp_highlight_enabled = 1
 let g:lsp_highlight_references_delay = 0
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_format_sync_timeout = 1000
