@@ -31,6 +31,7 @@ $PATH.extend(["$HOME/bin", "$HOME/.local/bin"])
 
 import os
 from pathlib import Path
+import threading
 
 
 def _autouser():
@@ -39,7 +40,7 @@ def _autouser():
 
 $PROMPT_FIELDS["autouser"] = _autouser
 
-$BOTTOM_TOOLBAR = "{gitstatus.operations}"
+$BOTTOM_TOOLBAR = "{gitstatus.operations}{autoinstall_pydev_tools_status}"
 $RIGHT_PROMPT = "# {localtime}"
 
 $PROMPT = (
@@ -48,13 +49,20 @@ $PROMPT = (
     "{last_return_code_if_nonzero:{BOLD_RED}}{prompt_end}{RESET} "
 )
 
+$PROMPT_FIELDS["autoinstall_pydev_tools_status"] = ""
 @events.vox_on_activate
 def install_pydev_tools(name: str, path: Path):
+    def _restore_prompt():
+        $PROMPT_FIELDS["autoinstall_pydev_tools_status"] = "installing pydev tools"
+        python_executable = Path(path) / "bin/python"
+        proc = ![@(python_executable) -m pip install @(tools) &> /dev/null]
+        proc.proc.wait()
+        $PROMPT_FIELDS["autoinstall_pydev_tools_status"] = ""
+        
     tools = ["IPython", "pudb", "ipykernel", "pylsp-rope", "pylsp-mypy"]
     if len(pf`{path}/lib/python[\\d.]*/site-packages/({"|".join(tools).replace("-", "_")})`) != len(tools):
         print("installing dev tools")
-        python_executable = Path(path) / "bin/python"
-        @(python_executable) -m pip install @(tools)
+        threading.Thread(target=_restore_prompt).start()
     else:
         # dev tools already installed
         pass
