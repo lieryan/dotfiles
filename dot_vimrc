@@ -283,6 +283,7 @@ function! PyTest(cmd) abort
   if a:cmd =~# "-1"
     let mcmd = substitute(mcmd, '-1', '-s', '')
   endif
+  let mcmd = substitute(mcmd, 'pytest', 'pytest --junit-xml=test-report.xml --tb=native', '')
   return mcmd
 endfunction
 let g:test#custom_transformations = {'djangotest': function('DjangoTest'), 'pytest': function('PyTest'), 'djangoprezzee': function('DjangoMT')}
