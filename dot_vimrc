@@ -538,6 +538,8 @@ let g:netrw_list_hide='__pycache__'
 let g:gutentags_ctags_exclude=[
     \'.pytest_cache',
     \'node_modules',
+    \'.tox',
+    \'build',
     \]
 let g:gutentags_ctags_extra_args=[
     \'--python-kinds=-i',
