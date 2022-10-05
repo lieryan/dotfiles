@@ -640,6 +640,7 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> <Leader>cc <plug>(lsp-hover)
     nmap <buffer> <Leader><Leader> <plug>(lsp-code-action)
     vmap <buffer> <Leader><Leader> :LspCodeAction<CR>
+    nmap <buffer> <Leader>ci :LspCodeAction refactor.inline<CR>
 endfunction
 augroup lsp_install
     autocmd!
