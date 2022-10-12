@@ -540,6 +540,7 @@ let g:gutentags_ctags_exclude=[
     \'node_modules',
     \'.tox',
     \'build',
+    \'.kube',
     \]
 let g:gutentags_ctags_extra_args=[
     \'--python-kinds=-i',
