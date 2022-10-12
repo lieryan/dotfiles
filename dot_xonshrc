@@ -72,3 +72,16 @@ def s(cmd):
     return ![ xonsh -c @(cmd) ]
 
 $FZF_DEFAULT_COMMAND = 'ack -f'
+
+
+def _pod(args):
+    microk8s kubectl @(args[0] if args else "get") pod @(args[1:] if args else args)
+
+
+def _svc(args):
+    microk8s kubectl @(args[0] if args else "get") svc @(args[1:] if args else args)
+
+
+aliases["pod"] = _pod
+aliases["svc"] = _svc
+aliases["k"] = 'microk8s kubectl'
