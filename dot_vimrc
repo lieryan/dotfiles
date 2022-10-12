@@ -218,10 +218,8 @@ augroup RunTest
   autocmd FileType python nmap <buffer> <Leader>Uf :TestFile -strategy=custom-term -1<CR>
   autocmd FileType python nmap <Leader>up :TestFolder<CR>
   autocmd FileType python nmap <Leader>Up :TestFolder -strategy=custom-term<CR>
-  " autocmd FileType python nmap <Leader>ua :TestSuite<CR>
-  autocmd FileType python nmap <Leader>ua :Dispatch mt<CR>
-  "autocmd FileType python nmap <Leader>Ua :TestSuite -strategy=custom-term<CR>
-  autocmd FileType python nmap <Leader>Ua :Term mt -1<CR>
+  autocmd FileType python nmap <Leader>ua :TestSuite<CR>
+  autocmd FileType python nmap <Leader>Ua :TestSuite -strategy=custom-term<CR>
 
   autocmd FileType python nmap <buffer> <Leader>ct :python3 run_test('test', coverage=True)<CR>
   autocmd FileType python nmap <buffer> <Leader>Ct :python3 run_test('test', on_terminal=True, coverage=True)<CR>
