@@ -30,6 +30,7 @@ endif
 call minpac#add('scrooloose/syntastic', {'type': 'opt'})
 call minpac#add('tpope/vim-scriptease', {'type': 'opt'})
 call minpac#add('reasonml-editor/vim-reason-plus')
+call minpac#add('puremourning/vimspector')
 
 " language service (completion)
 call minpac#add('w0rp/ale', {'type': 'opt'})
@@ -721,3 +722,5 @@ vim.diagnostic.config({
 
 EOF
 endif
+
+let g:vimspector_enable_mappings = "HUMAN"
