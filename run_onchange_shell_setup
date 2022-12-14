@@ -11,7 +11,6 @@ if true; then
 
     echo "Installing xontribs"
     ~/.local/pipx/venvs/xonsh/bin/python -m pip install \
-        xonsh-docker-tabcomplete \
         xontrib-argcomplete \
         xontrib-avox \
         xontrib-avox-poetry \
