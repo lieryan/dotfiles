@@ -37,15 +37,22 @@ import threading
 def _autouser():
     return None if os.getlogin() == "lieryan" else os.getlogin()
 
+def _openstack():
+    if 'OS_USERNAME' in ${...}:
+        return f"kube:{{BOLD_RED}}{$OS_USERNAME}{{RESET}}@{{BOLD_RED}}{$OS_PROJECT_NAME}.{$OS_USER_DOMAIN_NAME}{{RESET}}"
+    else: 
+        return None
+
 
 $PROMPT_FIELDS["autouser"] = _autouser
+$PROMPT_FIELDS["openstack"] = _openstack
 
 $BOTTOM_TOOLBAR = "{gitstatus.operations}{autoinstall_pydev_tools_status}"
 $RIGHT_PROMPT = "# {localtime}"
 
 $PROMPT = (
     "{YELLOW}{env_name}{RESET}{gitstatus:[{}]}{RESET}\n"
-    "{autouser:{BOLD_GREEN}{}{RESET}@}{hostname:{BOLD_CYAN}{}{RESET}:}{BOLD_BLUE}{short_cwd}{RESET}"
+    "{openstack:[{}] }{autouser:{BOLD_GREEN}{}{RESET}@}{hostname:{BOLD_CYAN}{}{RESET}:}{BOLD_BLUE}{short_cwd}{RESET}"
     "{last_return_code_if_nonzero:{BOLD_RED}}{prompt_end}{RESET} "
 )
 
