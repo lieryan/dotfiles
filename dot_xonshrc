@@ -99,3 +99,8 @@ aliases["ke"] = 'kubectl edit'
 
 aliases["ssh"] = "kitty +kitten ssh"
 
+source-bash ~/.load_pyenv
+
+$NVM_DIR=p"$HOME/.nvm"
+if $NVM_DIR.exists():
+    source-bash ~/.nvm/nvm.sh
