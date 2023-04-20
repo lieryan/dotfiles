@@ -83,5 +83,9 @@ def _svc(args):
 
 
 aliases["pod"] = _pod
+aliases["pod-kill"] = "microk8s kubectl delete pod --now"
 aliases["svc"] = _svc
+aliases["wk"] = 'watch microk8s kubectl'
 aliases["k"] = 'microk8s kubectl'
+aliases["kg"] = 'microk8s kubectl get'
+aliases["ke"] = 'kubectl edit'
