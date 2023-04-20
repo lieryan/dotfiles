@@ -96,3 +96,6 @@ aliases["wk"] = 'watch microk8s kubectl'
 aliases["k"] = 'microk8s kubectl'
 aliases["kg"] = 'microk8s kubectl get'
 aliases["ke"] = 'kubectl edit'
+
+aliases["ssh"] = "kitty +kitten ssh"
+
