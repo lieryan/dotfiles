@@ -25,6 +25,7 @@ call minpac#add('neovim/nvim-lspconfig', {'type': 'opt'})
 if has('nvim')
   packadd nvim-lspconfig
 endif
+call minpac#add('kana/vim-submode')
 
 " language service
 call minpac#add('scrooloose/syntastic', {'type': 'opt'})
@@ -402,7 +403,7 @@ autocmd FileType python nmap g/uc yinc:lgrep -w <C-r><C-w> */urls.py<CR>
 autocmd FileType python
       \ nnoremap <buffer> g/e /^<C-r>=repeat(" ", indent('.'))<CR>\zs\(if\\|else\\|elif\)<CR>
 
-nnoremap g/f :lgrep %:t<CR>
+nnoremap g/f :lgrep %:t:r<CR>
 
 " search path for :find
 set path+=**
@@ -569,7 +570,7 @@ let g:pymode_rope_autoimport=1
 " let g:pymode_folding = 0
 " let g:pymode_rope_always_show_complete_menu = 0
 " let g:pymode_rope_guess_project = 0
-let g:pymode_rope_autoimport_modules = ['os', 'subprocess', 'requests', 'django', 'nonexit']
+let g:pymode_rope_autoimport_modules = v:null
 let g:pymode_rope_autoimport_import_after_complete = 1
 let g:pymode_rope_complete_on_dot = 0
 let g:pymode_rope_completion = 0 " disable to use jedi-vim
@@ -621,7 +622,18 @@ if executable('pylsp')
         \ 'name': 'pylsp',
         \ 'cmd': {server_info->['pylsp', '-v', '--log-file', '/tmp/log.txt']},
         \ 'allowlist': ['python'],
+        \ 'workspace_config': {
+        \     'pylsp': {
+        \         'plugins': {
+        \             'pyflakes': { 'enabled': v:false },
+        \             'flake8': { 'enabled': v:true },
+        \             'rope_autoimport': { 'enabled': v:true },
+        \         }
+        \     }
+        \ }
         \ })
+        "\             'jedi_rename': { 'enabled': v:false },
+        "\             'rope_rename': { 'enabled': v:true },
 elseif executable('pyls')
     autocmd User lsp_setup call lsp#register_server({
         \ 'name': 'pyls',
@@ -633,7 +645,7 @@ endif
 highlight LspDiagnosticsDefaultWarning ctermfg=57
 
 function! s:on_lsp_buffer_enabled() abort
-    " setlocal omnifunc=lsp#complete
+    setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> gs <plug>(lsp-document-symbol-search)
@@ -737,3 +749,37 @@ EOF
 endif
 
 let g:vimspector_enable_mappings = "HUMAN"
+
+
+"function! s:SetupDebugMapping() abort
+"  " nmap <buffer> c <Plug>VimspectorContinue
+"  " nmap <buffer> n <Plug>VimspectorStepOver
+"  " nmap <buffer> s <Plug>VimspectorStepInto
+"  " nmap <buffer> o <Plug>VimspectorStepOut
+"  " nmap <buffer> u <Plug>VimspectorUpFrame
+"  " nmap <buffer> d <Plug>VimspectorDownFrame
+"  " nmap <buffer> K <Plug>VimspectorBalloonEval
+"  " nmap <buffer> b <Plug>VimspectorToggleBreakpoint
+"  " nmap <buffer> t <Plug>VimspectorRunToCursor
+"endfunction
+"" autocmd FileType python call s:SetupDebugMapping()
+""
+
+let g:submode_timeout = 0
+let g:submode_keep_leaving_key = 0
+packadd vim-submode
+call submode#enter_with('vimspectormode', 'n', '', 'D')
+call submode#leave_with('vimspectormode', 'n', '', 'i')
+call submode#map('vimspectormode', 'n', 'r', 'c', '<Plug>VimspectorContinue')
+call submode#map('vimspectormode', 'n', 'r', 'n', '<Plug>VimspectorStepOver')
+call submode#map('vimspectormode', 'n', 'r', 's', '<Plug>VimspectorStepInto')
+call submode#map('vimspectormode', 'n', 'r', 'o', '<Plug>VimspectorStepOut')
+call submode#map('vimspectormode', 'n', 'r', 'u', '<Plug>VimspectorUpFrame')
+call submode#map('vimspectormode', 'n', 'r', 'd', '<Plug>VimspectorDownFrame')
+call submode#map('vimspectormode', 'n', 'r', 'K', '<Plug>VimspectorBalloonEval')
+call submode#map('vimspectormode', 'n', 'r', 'b', '<Plug>VimspectorToggleBreakpoint')
+call submode#map('vimspectormode', 'n', 'r', 't', '<Plug>VimspectorRunToCursor')
+call submode#map('vimspectormode', 'n', 'r', 'h', 'h')
+call submode#map('vimspectormode', 'n', 'r', 'j', 'j')
+call submode#map('vimspectormode', 'n', 'r', 'k', 'k')
+call submode#map('vimspectormode', 'n', 'r', 'l', 'l')

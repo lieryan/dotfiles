@@ -15,7 +15,8 @@ if true; then
         xontrib-avox \
         xontrib-avox-poetry \
         xontrib-hist-navigator \
-        xontrib-kitty
+        xontrib-kitty \
+        xontrib-term-integrations
 
     WANT_SHELL=/home/lieryan/.local/bin/xonsh
 else
