@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+{{ if eq .chezmoi.os "linux" -}}
 sudo apt install python3-gpg
 
 if [[ ! -e ~/Downloads/dropbox.deb ]]; then
@@ -7,3 +8,6 @@ if [[ ! -e ~/Downloads/dropbox.deb ]]; then
     sudo dpkg -i ~/Downloads/dropbox.deb
     dropbox start -i
 fi
+{{ else if eq .chezmoi.os "darwin" -}}
+brew install dropbox
+{{ end -}}
