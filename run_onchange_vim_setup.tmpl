@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+{{ if eq .chezmoi.os "linux" -}}
+sudo apt install \
+    vim \
+    vim-gtk \
+    exuberant-ctags \
+    fzf \
+    ack
+{{ else if eq .chezmoi.os "darwin" -}}
+brew install \
+    vim \
+    ack
+{{ end -}}
