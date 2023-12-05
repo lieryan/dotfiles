@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+{{ if eq .chezmoi.os "linux" -}}
 sudo apt install \
     ca-certificates \
     curl \
@@ -25,3 +26,6 @@ sudo apt install \
     docker-compose-plugin
 
 sudo adduser {{ .chezmoi.username }} docker
+{{ else if eq .chezmoi.os "darwin" -}}
+brew install docker
+{{ end -}}
