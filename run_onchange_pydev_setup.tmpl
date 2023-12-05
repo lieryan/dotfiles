@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+{{ if eq .chezmoi.os "linux" -}}
 sudo apt install \
     --no-install-recommends \
     jupyter-qtconsole \
     python3-pip \
     python3-venv
+{{ end -}}
 
 pip install --user \
     virtualenvwrapper \
